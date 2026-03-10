@@ -66,11 +66,11 @@ export function getHistory(page = 1, limit = 20) {
   });
 }
 
-// 删除用户数据
-export function deleteUserData() {
+// 获取最后一次打卡记录
+export function getLastCheckin() {
   return request({
-    url: '/api/user/data',
-    method: 'DELETE',
+    url: '/api/checkin/last',
+    method: 'GET',
   });
 }
 
@@ -99,4 +99,5 @@ export default {
   deleteUserData,
   reverseGeocode,
   getLocationByIP,
+  getLastCheckin,
 };

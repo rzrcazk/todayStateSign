@@ -308,6 +308,88 @@ export async function handleDeleteUserData(
   }
 }
 
+// 获取最后一次打卡记录
+export async function handleGetLastCheckin(
+  request: Request,
+  env: Env
+): Promise<Response> {
+  if (request.method !== 'GET') {
+    return jsonResponse<ApiResponse<never>>({
+      success: false,
+      error: 'Method not allowed',
+    }, 405);
+  }
+
+  try {
+    // 验证 JWT
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return jsonResponse<ApiResponse<never>>({
+        success: false,
+        error: 'Unauthorized',
+      }, 401);
+    }
+
+    const token = authHeader.slice(7);
+    const payload = await verifyToken(token, env.JWT_SECRET);
+
+    if (!payload) {
+      return jsonResponse<ApiResponse<never>>({
+        success: false,
+        error: 'Invalid token',
+      }, 401);
+    }
+
+    // 查询最后一次打卡记录
+    const result = await env.DB.prepare(
+      `SELECT province, city, location_lat, location_lng, timestamp
+       FROM checkins
+       WHERE openid = ?
+       ORDER BY timestamp DESC
+       LIMIT 1`
+    )
+      .bind(payload.openid)
+      .first<{
+        province: string | null;
+        city: string;
+        location_lat: number | null;
+        location_lng: number | null;
+        timestamp: string;
+      }>();
+
+    if (!result) {
+      return jsonResponse<ApiResponse<never>>({
+        success: false,
+        error: 'No checkin record found',
+      }, 404);
+    }
+
+    return jsonResponse<ApiResponse<{
+      province: string;
+      city: string;
+      latitude: number | null;
+      longitude: number | null;
+      timestamp: string;
+    }>>({
+      success: true,
+      data: {
+        province: result.province || '',
+        city: result.city,
+        latitude: result.location_lat,
+        longitude: result.location_lng,
+        timestamp: result.timestamp,
+      },
+    });
+
+  } catch (error) {
+    console.error('Get last checkin error:', error);
+    return jsonResponse<ApiResponse<never>>({
+      success: false,
+      error: 'Internal server error',
+    }, 500);
+  }
+}
+
 function jsonResponse<T>(data: T, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,

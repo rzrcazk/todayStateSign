@@ -1,7 +1,7 @@
 // Cloudflare Worker 入口文件
 import type { Env } from './types';
 import { handleLogin } from './routes/auth';
-import { handleCheckin, handleGetHistory, handleDeleteUserData } from './routes/checkin';
+import { handleCheckin, handleGetHistory, handleDeleteUserData, handleGetLastCheckin } from './routes/checkin';
 import { handleGetStatistics } from './routes/statistics';
 import { handleReverseGeocode, handleIPLocation } from './routes/location';
 import { createMCP } from './mcp';
@@ -47,6 +47,9 @@ export default {
 
         case '/api/checkin/history':
           return await handleGetHistory(request, env);
+
+        case '/api/checkin/last':
+          return await handleGetLastCheckin(request, env);
 
         // 统计相关
         case '/api/statistics':

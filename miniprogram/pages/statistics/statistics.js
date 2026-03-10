@@ -29,6 +29,52 @@ Page({
 
   onLoad() {
     this.initRegionData();
+    this.loadLastLocation();
+  },
+
+  // 加载上次打卡位置（优先后端，其次本地，最后定位）
+  async loadLastLocation() {
+    try {
+      // 1. 优先从后端获取最后一次打卡位置
+      const lastCheckin = await api.getLastCheckin();
+      if (lastCheckin && lastCheckin.city) {
+        const locationInfo = {
+          province: lastCheckin.province,
+          city: lastCheckin.city,
+          district: '',
+          address: `${lastCheckin.province} ${lastCheckin.city}`,
+          latitude: lastCheckin.latitude,
+          longitude: lastCheckin.longitude,
+        };
+        // 保存到本地缓存
+        wx.setStorageSync('lastCheckinLocation', locationInfo);
+        this.setData({
+          location: locationInfo,
+          locationName: locationInfo.city || locationInfo.province || '未知位置',
+        });
+        this.loadStatistics();
+        return;
+      }
+    } catch (error) {
+      console.log('Backend last checkin not found, trying local storage');
+    }
+
+    // 2. 后端没有，尝试本地存储
+    try {
+      const lastLocation = wx.getStorageSync('lastCheckinLocation');
+      if (lastLocation && lastLocation.city) {
+        this.setData({
+          location: lastLocation,
+          locationName: lastLocation.city || lastLocation.province || '未知位置',
+        });
+        this.loadStatistics();
+        return;
+      }
+    } catch (error) {
+      console.error('Load local location failed:', error);
+    }
+
+    // 3. 都没有，获取真实位置
     this.initPage();
   },
 
