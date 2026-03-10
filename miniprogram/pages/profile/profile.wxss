@@ -1,0 +1,332 @@
+/* 个人中心页样式 */
+.container {
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding-bottom: 40px;
+}
+
+/* 用户头部 */
+.user-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-icon {
+  font-size: 40px;
+}
+
+.user-id {
+  color: #fff;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* 最后一次打卡 */
+.last-checkin-section {
+  background: #fff;
+  margin: -20px 16px 16px;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.last-checkin-card {
+  border-left: 4px solid;
+  border-radius: 12px;
+  background: #f8f9fa;
+  padding: 16px;
+}
+
+.last-checkin-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.last-checkin-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.last-checkin-icon text {
+  font-size: 24px;
+}
+
+.last-checkin-info {
+  flex: 1;
+}
+
+.last-checkin-status {
+  font-size: 18px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.last-checkin-time {
+  font-size: 13px;
+  color: #999;
+}
+
+.last-checkin-detail {
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.last-checkin-location {
+  font-size: 13px;
+  color: #666;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.last-checkin-comment {
+  font-size: 14px;
+  color: #333;
+  background: #fff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: block;
+  line-height: 1.5;
+}
+
+/* 统计区块 */
+.stats-section {
+  background: #fff;
+  margin: -20px 16px 16px;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 12px 4px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #667eea;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.total-checkins {
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+  display: block;
+}
+
+/* 空状态 */
+.empty-stats {
+  background: #fff;
+  margin: -20px 16px 16px;
+  border-radius: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: #333;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.empty-subtext {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 历史记录 */
+.history-section {
+  background: #fff;
+  margin: 0 16px 16px;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.history-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.history-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.history-icon text {
+  font-size: 20px;
+}
+
+.history-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-status {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.history-location {
+  font-size: 12px;
+  color: #999;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.history-comment {
+  font-size: 13px;
+  color: #666;
+  background: #f5f7fa;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: block;
+  margin-top: 6px;
+}
+
+.history-time {
+  flex-shrink: 0;
+}
+
+.history-time text {
+  font-size: 12px;
+  color: #999;
+}
+
+.load-more,
+.no-more {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.load-more text,
+.no-more text {
+  font-size: 14px;
+  color: #999;
+}
+
+/* 菜单列表 */
+.menu-section {
+  background: #fff;
+  margin: 0 16px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-icon {
+  font-size: 20px;
+}
+
+.menu-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.menu-arrow {
+  font-size: 20px;
+  color: #ccc;
+}
+
+/* 版本信息 */
+.version-info {
+  text-align: center;
+  padding: 24px;
+}
+
+.version-info text {
+  font-size: 12px;
+  color: #bbb;
+}

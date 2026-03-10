@@ -1,0 +1,33 @@
+{
+  "name": "city-rhythm-worker",
+  "version": "1.0.0",
+  "description": "城市节奏小程序后端 - Cloudflare Worker",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create city-rhythm-db",
+    "db:migrate": "wrangler d1 execute city-rhythm-db --file=./migrations/schema.sql",
+    "db:reset": "wrangler d1 execute city-rhythm-db --file=./migrations/schema.sql --local",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20250303.0",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "wrangler": "^3.114.0",
+    "vitest": "^2.1.9",
+    "@vitest/coverage-v8": "^2.1.9",
+    "typescript": "^5.8.2"
+  },
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "wechat",
+    "miniprogram"
+  ],
+  "license": "MIT"
+}

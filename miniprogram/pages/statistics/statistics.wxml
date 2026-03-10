@@ -1,0 +1,136 @@
+<!-- 统计页 -->
+<view class="container">
+  <!-- 位置信息 -->
+  <view class="location-header" bindtap="onLocationTap">
+    <text class="location-icon">📍</text>
+    <text class="location-name">{{locationName}}</text>
+    <text class="location-arrow">▼</text>
+    <text class="refresh-btn" catchtap="refreshData">🔄</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-state">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载数据中...</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view wx:elif="{{error}}" class="error-state">
+    <text class="error-icon">⚠️</text>
+    <text class="error-text">{{error}}</text>
+    <button class="retry-btn" bindtap="refreshData">重试</button>
+  </view>
+
+  <!-- 数据展示 -->
+  <scroll-view wx:else scroll-y class="content-scroll">
+    <!-- 总参与人数 -->
+    <view class="total-section">
+      <text class="total-label">今日同城参与者</text>
+      <text class="total-value">{{statistics.total_participants}}</text>
+      <text class="update-time">更新于 {{statistics.last_updated}}</text>
+    </view>
+
+    <!-- 状态分布 -->
+    <view class="section">
+      <text class="section-title">状态分布</text>
+      <view class="status-bars">
+        <view
+          wx:for="{{statistics.status_distribution}}"
+          wx:for-item="percentage"
+          wx:for-index="status"
+          wx:key="status"
+          class="status-bar-item"
+          data-status="{{status}}"
+          bindtap="selectStatus"
+        >
+          <view class="status-info">
+            <text class="status-name">{{status}}</text>
+            <text class="status-percent">{{percentage}}%</text>
+          </view>
+          <view class="progress-bar">
+            <view
+              class="progress-fill"
+              style="width: {{percentage}}%;"
+            ></view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 时段分布 -->
+    <view class="section">
+      <text class="section-title">24小时趋势</text>
+      <view class="hourly-chart">
+        <view
+          wx:for="{{statistics.hourly_distribution}}"
+          wx:key="hour"
+          class="hour-bar"
+        >
+          <view
+            class="hour-fill"
+            style="height: {{(item.percentage / 30) * 100}}px;"
+          ></view>
+          <text wx:if="{{item.hour % 4 === 0}}" class="hour-label">
+            {{item.hour}}
+          </text>
+        </view>
+      </view>
+      <view class="chart-legend">
+        <text>0时</text>
+        <text>12时</text>
+        <text>23时</text>
+      </view>
+    </view>
+
+    <!-- 数据说明 -->
+    <view class="notice-section">
+      <text class="notice-text">
+        💡 数据已脱敏处理，仅显示百分比分布
+      </text>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 位置选择弹窗 -->
+<view class="location-picker-mask" wx:if="{{showLocationPicker}}" bindtap="closeLocationPicker">
+  <view class="location-picker" catchtap="preventBubble">
+    <view class="picker-header">
+      <text class="picker-title">选择位置</text>
+      <text class="picker-close" bindtap="closeLocationPicker">✕</text>
+    </view>
+
+    <view class="picker-content">
+      <!-- 省份选择 -->
+      <view class="picker-row">
+        <text class="picker-label">省份</text>
+        <picker mode="selector" range="{{provinces}}" value="{{selectedProvinceIndex}}" bindchange="onProvinceChange">
+          <view class="picker-value">
+            <text>{{selectedProvince}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 城市选择 -->
+      <view class="picker-row">
+        <text class="picker-label">城市</text>
+        <picker mode="selector" range="{{cities}}" value="{{selectedCityIndex}}" bindchange="onCityChange">
+          <view class="picker-value">
+            <text>{{selectedCity}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="picker-actions">
+      <button class="picker-btn picker-btn-secondary" bindtap="retryGetLocation">
+        <text class="btn-icon">🔄</text>
+        <text>重新定位</text>
+      </button>
+      <button class="picker-btn picker-btn-primary" bindtap="confirmLocation">
+        <text>确认选择</text>
+      </button>
+    </view>
+  </view>
+</view>

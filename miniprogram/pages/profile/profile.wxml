@@ -1,0 +1,109 @@
+<!-- 个人中心页 -->
+<view class="container">
+  <!-- 用户头部 -->
+  <view class="user-header">
+    <view class="avatar">
+      <text class="avatar-icon">👤</text>
+    </view>
+    <text class="user-id">用户 {{openid}}</text>
+  </view>
+
+  <!-- 最后一次打卡状态 -->
+  <view class="last-checkin-section" wx:if="{{lastCheckin}}">
+    <view class="last-checkin-card" style="border-left-color: {{lastCheckin.statusInfo.color}}">
+      <view class="last-checkin-header">
+        <view class="last-checkin-icon" style="background: {{lastCheckin.statusInfo.color}}20">
+          <text>{{lastCheckin.statusInfo.icon}}</text>
+        </view>
+        <view class="last-checkin-info">
+          <text class="last-checkin-status" style="color: {{lastCheckin.statusInfo.color}}">{{lastCheckin.statusInfo.name}}</text>
+          <text class="last-checkin-time">{{lastCheckin.formattedTime}}</text>
+        </view>
+      </view>
+      <view class="last-checkin-detail">
+        <text class="last-checkin-location">📍 {{lastCheckin.city}}</text>
+        <text wx:if="{{lastCheckin.comment}}" class="last-checkin-comment">{{lastCheckin.comment}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 个人统计 -->
+  <view class="stats-section" wx:if="{{personalStats && personalStats.total > 0}}">
+    <text class="section-title">我的状态分布</text>
+    <view class="stats-grid">
+      <view
+        wx:for="{{personalStats.distribution}}"
+        wx:for-item="percentage"
+        wx:for-index="status"
+        wx:key="status"
+        class="stat-item"
+      >
+        <text class="stat-value">{{percentage}}%</text>
+        <text class="stat-label">{{status}}</text>
+      </view>
+    </view>
+    <text class="total-checkins">共打卡 {{personalStats.total}} 次</text>
+  </view>
+
+  <view class="empty-stats" wx:else>
+    <text class="empty-icon">📝</text>
+    <text class="empty-text">还没有打卡记录</text>
+    <text class="empty-subtext">去首页打卡，记录你的生活状态</text>
+  </view>
+
+  <!-- 打卡历史 -->
+  <view class="history-section" wx:if="{{history.length > 0}}">
+    <text class="section-title">打卡历史</text>
+    <view class="history-list">
+      <view
+        wx:for="{{history}}"
+        wx:key="id"
+        class="history-item"
+      >
+        <view class="history-icon" style="background: {{item.statusInfo.color}}20">
+          <text>{{item.statusInfo.icon}}</text>
+        </view>
+        <view class="history-content">
+          <text class="history-status">{{item.statusInfo.name}}</text>
+          <text class="history-location">📍 {{item.city}}</text>
+          <text wx:if="{{item.comment}}" class="history-comment">{{item.comment}}</text>
+        </view>
+        <view class="history-time">
+          <text>{{item.formattedDate}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore}}" bindtap="loadMore">
+      <text wx:if="{{!loading}}">加载更多</text>
+      <text wx:else>加载中...</text>
+    </view>
+
+    <view class="no-more" wx:if="{{!hasMore && history.length > 0}}">
+      <text>没有更多记录了</text>
+    </view>
+  </view>
+
+  <!-- 菜单列表 -->
+  <view class="menu-section">
+    <view
+      wx:for="{{menuItems}}"
+      wx:key="id"
+      class="menu-item"
+      data-action="{{item.action}}"
+      bindtap="onMenuTap"
+    >
+      <view class="menu-left">
+        <text class="menu-icon">{{item.icon}}</text>
+        <text class="menu-name">{{item.name}}</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>城市节奏 v1.0.0</text>
+  </view>
+</view>

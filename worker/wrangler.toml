@@ -1,0 +1,16 @@
+name = "city-rhythm-worker"
+main = "src/index.ts"
+compatibility_date = "2026-03-09"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "city-rhythm-db"
+database_id = "68d1c1b4-0fe8-420f-9ee9-45ca534ce3ef"
+
+[vars]
+WECHAT_APPID = "wx3abb4ce1ec961c6a"
+TENCENT_MAP_KEY = "11b05b171630dc0685d547a2f799314d"
+
+# 敏感信息使用 wrangler secret 设置:
+# wrangler secret put WECHAT_APPSECRET
+# wrangler secret put JWT_SECRET

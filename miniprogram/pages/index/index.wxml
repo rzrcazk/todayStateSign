@@ -1,0 +1,107 @@
+<!-- 首页 - 打卡页面 -->
+<view class="container">
+  <!-- 位置信息 -->
+  <view class="location-bar" bindtap="onLocationTap">
+    <text class="location-icon">📍</text>
+    <text class="location-text {{locationLoading ? 'loading' : ''}}">{{locationName}}</text>
+    <text class="location-arrow" wx:if="!locationLoading">›</text>
+    <view class="loading-dot" wx:if="{{locationLoading}}"></view>
+  </view>
+
+  <!-- 欢迎语 -->
+  <view class="welcome-section">
+    <text class="welcome-title">今天过得怎么样？</text>
+    <text class="welcome-subtitle">记录当下，感受城市节奏</text>
+  </view>
+
+  <!-- 状态选择区 -->
+  <view class="status-section">
+    <text class="section-title">选择你的状态</text>
+    <view class="status-grid">
+      <view
+        wx:for="{{statusOptions}}"
+        wx:key="code"
+        class="status-item {{selectedStatus === item.code ? 'selected' : ''}}"
+        data-code="{{item.code}}"
+        bindtap="selectStatus"
+      >
+        <text class="status-icon" style="color: {{item.color}}">{{item.icon}}</text>
+        <text class="status-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 留言输入区 -->
+  <view class="comment-section">
+    <text class="section-title">写点什么（可选）</text>
+    <textarea
+      class="comment-input"
+      placeholder-class="comment-placeholder"
+      placeholder="分享你的心情..."
+      maxlength="50"
+      bindinput="onCommentInput"
+      value="{{comment}}"
+    />
+    <text class="comment-count">{{commentCount}}/50</text>
+  </view>
+
+  <!-- 打卡按钮 -->
+  <view class="action-section">
+    <button
+      class="checkin-btn {{loading ? 'loading' : ''}} {{!selectedStatus ? 'disabled' : ''}}"
+      bindtap="submitCheckin"
+      disabled="{{loading || !selectedStatus}}"
+    >
+      {{loading ? '提交中...' : '打卡'}}
+    </button>
+  </view>
+
+  <!-- 底部导航提示 -->
+  <view class="footer-tips">
+    <text bindtap="goToStatistics">查看同城状态 →</text>
+  </view>
+</view>
+
+<!-- 位置选择弹窗 -->
+<view class="location-picker-mask" wx:if="{{showLocationPicker}}" bindtap="closeLocationPicker">
+  <view class="location-picker" catchtap="preventBubble">
+    <view class="picker-header">
+      <text class="picker-title">选择位置</text>
+      <text class="picker-close" bindtap="closeLocationPicker">✕</text>
+    </view>
+
+    <view class="picker-content">
+      <!-- 省份选择 -->
+      <view class="picker-row">
+        <text class="picker-label">省份</text>
+        <picker mode="selector" range="{{provinces}}" value="{{selectedProvinceIndex}}" bindchange="onProvinceChange">
+          <view class="picker-value">
+            <text>{{selectedProvince}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 城市选择 -->
+      <view class="picker-row">
+        <text class="picker-label">城市</text>
+        <picker mode="selector" range="{{cities}}" value="{{selectedCityIndex}}" bindchange="onCityChange">
+          <view class="picker-value">
+            <text>{{selectedCity}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="picker-actions">
+      <button class="picker-btn picker-btn-secondary" bindtap="retryGetLocation">
+        <text class="btn-icon">🔄</text>
+        <text>重新定位</text>
+      </button>
+      <button class="picker-btn picker-btn-primary" bindtap="confirmLocation">
+        <text>确认选择</text>
+      </button>
+    </view>
+  </view>
+</view>
