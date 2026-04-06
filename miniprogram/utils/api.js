@@ -74,6 +74,14 @@ export function getLastCheckin() {
   });
 }
 
+// 删除用户数据
+export function deleteUserData() {
+  return request({
+    url: '/api/user/data',
+    method: 'DELETE',
+  });
+}
+
 // 位置服务 - 逆地址解析
 export function reverseGeocode(latitude, longitude) {
   return request({
@@ -96,8 +104,8 @@ export default {
   submitCheckin,
   getStatistics,
   getHistory,
+  getLastCheckin,
   deleteUserData,
   reverseGeocode,
   getLocationByIP,
-  getLastCheckin,
 };
